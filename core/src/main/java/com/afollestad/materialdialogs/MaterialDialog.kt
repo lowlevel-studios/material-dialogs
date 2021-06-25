@@ -53,7 +53,7 @@ import com.afollestad.materialdialogs.utils.resolveColor
 typealias DialogCallback = (MaterialDialog) -> Unit
 
 /** @author Aidan Follestad (afollestad) */
-class MaterialDialog(
+open class MaterialDialog(
   val windowContext: Context,
   val dialogBehavior: DialogBehavior = DEFAULT_BEHAVIOR
 ) : Dialog(windowContext, inferTheme(windowContext, dialogBehavior)) {
