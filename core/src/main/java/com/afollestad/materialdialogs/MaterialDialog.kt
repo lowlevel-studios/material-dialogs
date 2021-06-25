@@ -397,7 +397,7 @@ class MaterialDialog(
   override fun dismiss() {
     if (dialogBehavior.onDismiss()) return
     hideKeyboard()
-    super.dismiss()
+    try { super.dismiss() } catch(t: Throwable) {}
   }
 
   internal fun onActionButtonClicked(which: WhichButton) {
