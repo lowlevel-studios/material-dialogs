@@ -27,7 +27,7 @@ internal fun MaterialDialog.invalidateInputMaxLength(allowEmpty: Boolean) {
   if (!allowEmpty && currentLength == 0) {
     return
   }
-  val maxLength = getInputLayout().counterMaxLength
+  val maxLength = getInputLayout()?.counterMaxLength ?: return
   if (maxLength > 0) {
     setActionButtonEnabled(POSITIVE, currentLength <= maxLength)
   }

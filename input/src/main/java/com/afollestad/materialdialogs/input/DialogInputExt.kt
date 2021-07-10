@@ -41,16 +41,15 @@ typealias InputCallback = ((MaterialDialog, CharSequence) -> Unit)?
  *
  * @throws IllegalStateException if the dialog is not an input dialog.
  */
-@CheckResult fun MaterialDialog.getInputLayout(): TextInputLayout {
+@CheckResult fun MaterialDialog.getInputLayout(): TextInputLayout? {
   val key = "[custom_view_input_layout]"
-  return config[key] as? TextInputLayout ?: lookupInputLayout().also {
+  return config[key] as? TextInputLayout ?: lookupInputLayout()?.also {
     config[key] = it
   }
 }
 
-private fun MaterialDialog.lookupInputLayout(): TextInputLayout {
+private fun MaterialDialog.lookupInputLayout(): TextInputLayout? {
   return getCustomView().findViewById(R.id.md_input_layout) as? TextInputLayout
-      ?: throw IllegalStateException("You have not setup this dialog as an input dialog.")
 }
 
 /**
@@ -59,9 +58,15 @@ private fun MaterialDialog.lookupInputLayout(): TextInputLayout {
  * @throws IllegalStateException if the dialog is not an input dialog.
  */
 @CheckResult fun MaterialDialog.getInputField(): EditText {
-  return getInputLayout().editText ?: throw IllegalStateException(
-      "You have not setup this dialog as an input dialog."
-  )
+    val key = "[custom_view_input_message]"
+    return config[key] as? EditText ?: lookupInputField().also {
+        config[key] = it
+    }
+}
+
+private fun MaterialDialog.lookupInputField(): EditText {
+    return getCustomView().findViewById(R.id.md_input_message) as? EditText
+        ?: throw IllegalStateException("You have not setup this dialog as an input dialog.")
 }
 
 /**
@@ -116,7 +121,7 @@ fun MaterialDialog.input(
   styleInput(hint = hint, hintRes = hintRes, inputType = inputType)
 
   if (maxLength != null) {
-    getInputLayout().run {
+    getInputLayout()?.run {
       isCounterEnabled = true
       counterMaxLength = maxLength
     }
@@ -165,7 +170,7 @@ private fun MaterialDialog.styleInput(
   val resources = windowContext.resources
   val editText = getInputField()
 
-  getInputLayout().hint = hint ?: if (hintRes != null) resources.getString(hintRes) else null
+  getInputLayout()?.hint = hint ?: if (hintRes != null) resources.getString(hintRes) else null
   editText.inputType = inputType
   editText.maybeSetTextColor(
       windowContext,
