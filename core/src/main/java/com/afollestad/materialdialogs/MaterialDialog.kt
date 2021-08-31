@@ -17,12 +17,14 @@
 
 package com.afollestad.materialdialogs
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color.TRANSPARENT
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.util.TypedValue
 import android.util.TypedValue.COMPLEX_UNIT_DIP
 import android.view.LayoutInflater
@@ -397,7 +399,10 @@ open class MaterialDialog(
   override fun dismiss() {
     if (dialogBehavior.onDismiss()) return
     hideKeyboard()
-    try { super.dismiss() } catch(t: Throwable) {}
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && windowContext is Activity && windowContext.isDestroyed) {
+      return
+    }
+    try { super.dismiss() } catch (t: Throwable) {}
   }
 
   internal fun onActionButtonClicked(which: WhichButton) {
