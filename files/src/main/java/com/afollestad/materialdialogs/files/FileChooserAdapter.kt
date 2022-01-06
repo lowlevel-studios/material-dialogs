@@ -143,12 +143,12 @@ internal class FileChooserAdapter(
         if (onlyFolders) {
           rawContents
               .filter { it.isDirectory && filter?.invoke(it) ?: true }
-              .sortedBy { it.name.toLowerCase(Locale.getDefault()) }
+              .sortedBy { it.name.lowercase() }
         } else {
           rawContents
               .filter { filter?.invoke(it) ?: true }
               .sortedWith(compareBy({ !it.isDirectory }, {
-                it.nameWithoutExtension.toLowerCase(Locale.getDefault())
+                it.nameWithoutExtension.lowercase()
               }))
         }
       }
