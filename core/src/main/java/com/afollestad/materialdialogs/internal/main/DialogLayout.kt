@@ -145,6 +145,8 @@ class DialogLayout(
           makeMeasureSpec(specWidth, EXACTLY),
           makeMeasureSpec(0, UNSPECIFIED)
       )
+    } else {
+      buttonsLayout!!.visibility = GONE
     }
 
     val titleAndButtonsHeight =
